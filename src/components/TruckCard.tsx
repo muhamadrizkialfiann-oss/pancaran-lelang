@@ -111,7 +111,7 @@ export default function TruckCard({ truck, onSelect }: TruckCardProps) {
         {/* Pricing tag JBA style */}
         <div className="mt-auto bg-slate-50 border-l-4 border-[#0F3460] px-3.5 py-2.5 rounded-r-lg">
           <span className="block text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
-            Harga Dasar NIPL
+            Harga Dasar Lelang
           </span>
           <span className="block text-lg font-black text-[#E94560] mt-0.5">
             {formatIDR(truck.basePrice)}

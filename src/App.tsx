@@ -399,7 +399,7 @@ export default function App() {
                       }}
                       className="w-full md:w-auto bg-[#0F3460] hover:bg-[#0b2545] text-white font-bold py-2 px-4 rounded-lg text-xs transition-colors cursor-pointer"
                     >
-                      Daftar NIPL & Deposit
+                      Daftar Peserta & Deposit
                     </button>
                   </div>
                 </div>
@@ -422,7 +422,7 @@ export default function App() {
                 <div className="space-y-2">
                   <span className="bg-slate-800 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">2</span>
                   <h5 className="font-extrabold text-slate-800 uppercase tracking-wider text-[10px]">Deposit Jaminan</h5>
-                  <p className="text-slate-500">Masuk ke menu Aktivitas Saya, lalu setorkan deposit jaminan Rp 5 Juta per lot untuk mengambil NIPL.</p>
+                  <p className="text-slate-500">Masuk ke menu Aktivitas Saya, lalu setorkan deposit jaminan Rp 5 Juta per lot untuk mengambil Nomor Peserta.</p>
                 </div>
                 <div className="space-y-2">
                   <span className="bg-slate-800 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">3</span>
@@ -507,7 +507,7 @@ export default function App() {
           <div className="space-y-3">
             <h4 className="font-bold text-slate-200 uppercase">Hubungi Tim Sales</h4>
             <p className="leading-relaxed">
-              Miliki pertanyaan terkait tata cara NIPL, prosedur serah terima, atau asuransi kendaraan? Hubungi customer support kami:
+              Miliki pertanyaan terkait tata cara lelang, prosedur serah terima, atau asuransi kendaraan? Hubungi customer support kami:
             </p>
             <div className="bg-slate-800 p-3 rounded-lg border border-slate-700/60 font-semibold text-slate-300">
               📞 (021) 2929-8888 <br/>

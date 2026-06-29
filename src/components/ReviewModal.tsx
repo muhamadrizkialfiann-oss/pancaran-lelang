@@ -103,7 +103,7 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
     
     if (negoPrice >= truck.basePrice) {
       status = 'Diterima Sistem (Menunggu Verifikasi)';
-      responseText = `Selamat! Penawaran Anda sebesar ${formatIDR(negoPrice)} telah disetujui sistem karena menyentuh atau melampaui limit dasar. Tim Sales Pancaran akan segera menghubungi Anda dalam 1 jam untuk verifikasi & pembuatan NIPL.`;
+      responseText = `Selamat! Penawaran Anda sebesar ${formatIDR(negoPrice)} telah disetujui sistem karena menyentuh atau melampaui limit dasar. Tim Sales Pancaran akan segera menghubungi Anda dalam 1 jam untuk verifikasi & pembuatan Akun Peserta.`;
     } else {
       status = 'Penawaran Dipertimbangkan';
       responseText = `Penawaran Anda sebesar ${formatIDR(negoPrice)} telah masuk ke sistem pengadaan kami. Karena berada sedikit di bawah harga dasar, tim penilai kami akan mereview dalam 1x24 jam.`;
@@ -321,7 +321,7 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
                     <span className="text-xs text-slate-400 font-bold uppercase block mb-1">Harga Dasar Mulai Dari</span>
                     <span className="text-2xl font-black text-[#E94560] block">{formatIDR(truck.basePrice)}</span>
                     <p className="text-xs text-slate-500 mt-1">
-                      *Harga di atas adalah batas penawaran awal NIPL. Klik tab formulir di sisi kanan untuk mendaftar inspeksi fisik gratis ke pool atau mengajukan negosiasi harga.
+                      *Harga di atas adalah batas penawaran awal lelang. Klik tab formulir di sisi kanan untuk mendaftar inspeksi fisik gratis ke pool atau mengajukan negosiasi harga.
                     </p>
                   </div>
                 </div>
@@ -331,7 +331,7 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
                   <div>
                     <h5 className="font-bold text-amber-800 text-xs uppercase tracking-wider mb-1">HATI-HATI PENIPUAN</h5>
                     <p className="text-xs text-amber-700 leading-relaxed">
-                      Pancaran Lelang tidak memungut biaya apapun untuk kunjungan cek fisik ke pool. Seluruh dana deposit jaminan penawaran NIPL disetorkan secara resmi ke rekening virtual account atas nama perusahaan kami.
+                      Pancaran Lelang tidak memungut biaya apapun untuk kunjungan cek fisik ke pool. Seluruh dana deposit jaminan penawaran lelang disetorkan secara resmi ke rekening virtual account atas nama perusahaan kami.
                     </p>
                   </div>
                 </div>

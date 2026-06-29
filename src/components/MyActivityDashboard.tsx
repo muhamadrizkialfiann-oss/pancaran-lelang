@@ -13,16 +13,16 @@ interface MyActivityDashboardProps {
 }
 
 export default function MyActivityDashboard({ bookings, negotiations, consignments, onCancelBooking }: MyActivityDashboardProps) {
-  // Registered NIPL state to make auction bids interactive
+  // Registered bidder state to make auction bids interactive
   const [registeredNipl, setRegisteredNipl] = useState<string | null>(null);
   const [isRegistering, setIsRegistering] = useState(false);
   const [selectedPool, setSelectedPool] = useState('Jakarta Utara (Pool Cilincing)');
 
-  // Handle NIPL Registration Deposit
+  // Handle Registration Deposit
   const handleRegisterNipl = () => {
     setIsRegistering(true);
     setTimeout(() => {
-      const randomNipl = 'NIPL-' + Math.floor(10000 + Math.random() * 90000);
+      const randomNipl = 'KODE-' + Math.floor(10000 + Math.random() * 90000);
       setRegisteredNipl(randomNipl);
       setIsRegistering(false);
     }, 1200);
@@ -47,7 +47,7 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
             Portal Aktivitas & Dashboard Anggota
           </h2>
           <p className="text-xs text-slate-500 font-medium">
-            Kelola janji temu cek fisik, negosiasi harga dasar, titip lelang, serta kepemilikan Nomor Induk Peserta Lelang (NIPL) Anda.
+            Kelola janji temu cek fisik, negosiasi harga dasar, titip lelang, serta status Kepesertaan Lelang Anda.
           </p>
         </div>
 
@@ -56,12 +56,12 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
           {registeredNipl ? (
             <div className="bg-emerald-50 text-emerald-700 px-4 py-2.5 rounded-xl border border-emerald-200 flex items-center gap-2 text-xs font-bold shadow-xs">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Status NIPL: <span className="font-extrabold text-slate-800 bg-white px-2 py-0.5 rounded border border-emerald-100">{registeredNipl}</span> (Aktif)
+              Status Peserta: <span className="font-extrabold text-slate-800 bg-white px-2 py-0.5 rounded border border-emerald-100">{registeredNipl}</span> (Aktif)
             </div>
           ) : (
             <div className="bg-amber-50 text-amber-700 px-4 py-2.5 rounded-xl border border-amber-200 flex items-center gap-2 text-xs font-semibold">
               <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-              Belum Terdaftar NIPL (Tidak Bisa Menawar Live)
+              Belum Terdaftar Peserta (Tidak Bisa Menawar Live)
             </div>
           )}
         </div>
@@ -69,7 +69,7 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Interactive Column (NIPL Deposit Card Generation) - 4/12 */}
+        {/* Left Interactive Column (Deposit Card Generation) - 4/12 */}
         <div className="lg:col-span-4 space-y-6">
           
           {/* JBA Bidder Card Maker */}
@@ -79,13 +79,13 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
             
             <h3 className="text-xs font-black uppercase tracking-wider text-[#E94560] border-b border-slate-700/60 pb-2.5 mb-4 flex items-center gap-1.5">
               <Coins className="w-4.5 h-4.5" />
-              Pendaftaran Kartu NIPL Live
+              Pendaftaran Kartu Peserta Live
             </h3>
 
             {!registeredNipl ? (
               <div className="space-y-4">
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Ingin mengikuti lelang live hari Kamis/Jumat? Depositkan jaminan sebesar <strong>Rp 5.000.000</strong> per lot untuk mendapatkan Kartu NIPL resmi Anda.
+                  Ingin mengikuti lelang live hari Kamis/Jumat? Depositkan jaminan sebesar <strong>Rp 5.000.000</strong> per lot untuk mendapatkan Kartu Peserta resmi Anda.
                 </p>
 
                 <div className="space-y-2">
@@ -116,8 +116,8 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
                     <span>Mendaftarkan Deposit...</span>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4" />
-                      Deposit Rp 5JT & Ambil NIPL
+                       <Sparkles className="w-4 h-4" />
+                      Deposit Rp 5JT & Ambil Kartu Peserta
                     </>
                   )}
                 </button>
@@ -132,7 +132,7 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
                   </div>
 
                   <div className="space-y-1">
-                    <span className="block text-[10px] text-slate-400 font-bold uppercase">KODE NIPL PENAWARAN</span>
+                    <span className="block text-[10px] text-slate-400 font-bold uppercase">KODE PENAWARAN PESERTA</span>
                     <span className="text-xl font-mono font-black text-white tracking-wider block">{registeredNipl}</span>
                   </div>
 
@@ -149,13 +149,13 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
                 </div>
 
                 <div className="text-[10px] text-slate-400 text-center leading-relaxed">
-                  Tunjukkan kode NIPL di atas saat lelang live berlangsung untuk mengajukan tawaran lot di podium lelang.
+                  Tunjukkan kode peserta di atas saat lelang live berlangsung untuk mengajukan tawaran lot di podium lelang.
                 </div>
 
                 <button
                   onClick={() => {
                     setRegisteredNipl(null);
-                    alert('NIPL dibatalkan dan uang jaminan jaminan Rp 5.000.000 berhasil direfund kembali ke rekening Anda!');
+                    alert('Pendaftaran peserta dibatalkan dan uang jaminan jaminan Rp 5.000.000 berhasil direfund kembali ke rekening Anda!');
                   }}
                   className="w-full bg-slate-800 hover:bg-slate-700 text-red-400 hover:text-red-300 border border-slate-700 font-bold py-2 rounded-xl text-xs transition-colors cursor-pointer"
                 >
@@ -170,7 +170,7 @@ export default function MyActivityDashboard({ bookings, negotiations, consignmen
             <div>
               <h5 className="font-bold text-amber-800 text-xs uppercase tracking-wider mb-1">KETENTUAN BIDDING</h5>
               <p className="text-xs text-amber-700 leading-relaxed">
-                NIPL berlaku selama 30 hari kalender. Jika dalam 30 hari Anda belum memenangkan unit lelang, deposit dapat direfund penuh tanpa potongan biaya administrasi sepeserpun.
+                Status kepesertaan berlaku selama 30 hari kalender. Jika dalam 30 hari Anda belum memenangkan unit lelang, deposit dapat direfund penuh tanpa potongan biaya administrasi sepeserpun.
               </p>
             </div>
           </div>

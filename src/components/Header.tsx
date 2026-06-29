@@ -24,7 +24,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
           </span>
         </div>
         <div className="flex items-center gap-4 text-slate-300">
-          <a href="#panduan" className="hover:text-red-400 transition-colors">Panduan NIPL</a>
+          <a href="#panduan" className="hover:text-red-400 transition-colors">Panduan Lelang</a>
           <span className="text-slate-600">|</span>
           <a href="#bantuan" className="hover:text-red-400 transition-colors">CS Hotline: (021) 2929-8888</a>
           <span className="text-slate-600">|</span>
@@ -129,7 +129,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
             className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-red-500/20 transition-all duration-200 hover:scale-102 cursor-pointer"
             id="register-nipl-button"
           >
-            Daftar NIPL Sekarang
+            Daftar Peserta Sekarang
           </button>
         </div>
       </header>
