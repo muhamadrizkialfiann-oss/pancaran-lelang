@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Truck, InspectionBooking, NegotiationOffer, ConsignmentSubmission } from './types';
 import { INITIAL_TRUCKS } from './data';
 
@@ -7,11 +7,24 @@ import Header from './components/Header';
 import TruckCard from './components/TruckCard';
 import ReviewModal from './components/ReviewModal';
 import MyActivityDashboard from './components/MyActivityDashboard';
+import AuthModal from './components/AuthModal';
+import AdminPostAuctionModal from './components/AdminPostAuctionModal';
+
+import { 
+  getTrucks, 
+  getBookings, 
+  getNegotiations, 
+  getConsignments, 
+  addBooking, 
+  addNegotiation, 
+  addConsignment, 
+  deleteBooking as dbDeleteBooking 
+} from './lib/firestoreService';
 
 // Icon Imports
 import { 
   Search, SlidersHorizontal, MapPin, Calendar, BookOpen, 
-  HelpCircle, ShieldCheck, CheckCircle2, Award, Sparkles, PhoneCall 
+  HelpCircle, ShieldCheck, CheckCircle2, Award, Sparkles, PhoneCall, Plus 
 } from 'lucide-react';
 
 export default function App() {
@@ -19,7 +32,18 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<string>('beranda');
 
   // Interactive Database State (starts with hydration)
-  const [trucks] = useState<Truck[]>(INITIAL_TRUCKS);
+  const [trucks, setTrucks] = useState<Truck[]>(INITIAL_TRUCKS);
+  
+  // Auth state
+  const [user, setUser] = useState<{ email: string; name: string; phone: string; role: 'admin' | 'user' } | null>(() => {
+    const saved = localStorage.getItem('pancaran_session');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  // Modal and Tab control states
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
+  const [isAdminPostOpen, setIsAdminPostOpen] = useState(false);
   
   const [bookings, setBookings] = useState<InspectionBooking[]>([
     {
@@ -89,21 +113,97 @@ export default function App() {
   const categories = ['Semua', 'Wingbox', 'Tractor Head', 'Dump Truck', 'Box Rigit', 'Tangki'];
   const locations = ['Semua', 'Jakarta', 'Surabaya', 'Medan'];
 
+  // Hydrate data from Firestore on Mount
+  useEffect(() => {
+    async function loadFirebaseData() {
+      try {
+        const firebaseTrucks = await getTrucks();
+        if (firebaseTrucks.length > 0) {
+          setTrucks(firebaseTrucks);
+        }
+
+        const firebaseBookings = await getBookings();
+        if (firebaseBookings.length > 0) {
+          setBookings(firebaseBookings);
+        }
+
+        const firebaseNegotiations = await getNegotiations();
+        if (firebaseNegotiations.length > 0) {
+          setNegotiations(firebaseNegotiations);
+        }
+
+        const firebaseConsignments = await getConsignments();
+        if (firebaseConsignments.length > 0) {
+          setConsignments(firebaseConsignments);
+        }
+      } catch (err) {
+        console.error('Failed to load data from Firestore:', err);
+      }
+    }
+    loadFirebaseData();
+  }, []);
+
+  // Auth session handlers
+  const handleLoginSuccess = (userSession: typeof user) => {
+    setUser(userSession);
+    if (userSession) {
+      localStorage.setItem('pancaran_session', JSON.stringify(userSession));
+    }
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('pancaran_session');
+  };
+
+  const handleOpenAuth = (initialTab: 'login' | 'register' = 'login') => {
+    setAuthTab(initialTab);
+    setIsAuthOpen(true);
+  };
+
+  const handlePostSuccess = (newTruck: Truck) => {
+    setTrucks(prev => [newTruck, ...prev]);
+    // Scroll to filters to see newly posted truck
+    setTimeout(() => {
+      document.getElementById('katalog-filter')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
   // Handler submissions from children components
-  const handleBookingSubmitted = (newBooking: InspectionBooking) => {
+  const handleBookingSubmitted = async (newBooking: InspectionBooking) => {
     setBookings(prev => [newBooking, ...prev]);
+    try {
+      await addBooking(newBooking);
+    } catch (err) {
+      console.error('Error saving booking to Firestore:', err);
+    }
   };
 
-  const handleNegotiationSubmitted = (newOffer: NegotiationOffer) => {
+  const handleNegotiationSubmitted = async (newOffer: NegotiationOffer) => {
     setNegotiations(prev => [newOffer, ...prev]);
+    try {
+      await addNegotiation(newOffer);
+    } catch (err) {
+      console.error('Error saving negotiation to Firestore:', err);
+    }
   };
 
-  const handleConsignmentSubmitted = (newConsignment: ConsignmentSubmission) => {
+  const handleConsignmentSubmitted = async (newConsignment: ConsignmentSubmission) => {
     setConsignments(prev => [newConsignment, ...prev]);
+    try {
+      await addConsignment(newConsignment);
+    } catch (err) {
+      console.error('Error saving consignment to Firestore:', err);
+    }
   };
 
-  const handleCancelBooking = (id: string) => {
+  const handleCancelBooking = async (id: string) => {
     setBookings(prev => prev.filter(b => b.id !== id));
+    try {
+      await dbDeleteBooking(id);
+    } catch (err) {
+      console.error('Error deleting booking from Firestore:', err);
+    }
   };
 
   // Filter & Sort Logic
@@ -161,6 +261,10 @@ export default function App() {
         bookingCount={bookings.length}
         negoCount={negotiations.length}
         consignmentCount={consignments.length}
+        user={user}
+        onLogout={handleLogout}
+        onOpenAuth={handleOpenAuth}
+        onOpenPostAuction={() => setIsAdminPostOpen(true)}
       />
 
       {/* Main Body */}
@@ -372,6 +476,20 @@ export default function App() {
           onNegotiationSubmitted={handleNegotiationSubmitted}
         />
       )}
+
+      {/* Auth Modal (Masuk / Daftar) */}
+      <AuthModal 
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
+
+      {/* Admin Post Auction Modal */}
+      <AdminPostAuctionModal 
+        isOpen={isAdminPostOpen}
+        onClose={() => setIsAdminPostOpen(false)}
+        onPostSuccess={handlePostSuccess}
+      />
 
       {/* Footer */}
       <footer className="bg-[#1A1A24] text-slate-400 py-12 px-4 md:px-8 border-t border-slate-800 text-xs mt-12">

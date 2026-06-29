@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { 
   Truck, Calendar, History, Calculator, ArrowRight, User, X, 
   ShieldCheck, Coins, BookOpen, Clock, FileText, CheckCircle2,
-  ChevronRight, AlertTriangle, MapPin, Award
+  ChevronRight, AlertTriangle, MapPin, Award, LogOut, Plus, Shield
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -11,9 +11,23 @@ interface HeaderProps {
   bookingCount: number;
   negoCount: number;
   consignmentCount: number;
+  user: { email: string; name: string; phone: string; role: 'admin' | 'user' } | null;
+  onLogout: () => void;
+  onOpenAuth: (initialTab?: 'login' | 'register') => void;
+  onOpenPostAuction: () => void;
 }
 
-export default function Header({ activeTab, setActiveTab, bookingCount, negoCount, consignmentCount }: HeaderProps) {
+export default function Header({ 
+  activeTab, 
+  setActiveTab, 
+  bookingCount, 
+  negoCount, 
+  consignmentCount,
+  user,
+  onLogout,
+  onOpenAuth,
+  onOpenPostAuction
+}: HeaderProps) {
   const totalActivities = bookingCount + negoCount + consignmentCount;
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [selectedStep, setSelectedStep] = useState<number>(1);
@@ -35,32 +49,20 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
     },
     {
       step: 2,
-      title: "Setor Deposit Jaminan",
-      icon: Coins,
-      shortDesc: "Sediakan uang jaminan deposit sebesar Rp 5 Juta per lot untuk mengaktifkan hak tawar.",
-      detailTitle: "Setor Deposit Jaminan Aman (100% Refundable)",
-      bullets: [
-        "Deposit jaminan ditetapkan sebesar Rp 5.000.000 untuk setiap 1 lot (unit truk) yang ingin Anda tawar.",
-        "Dana deposit disetorkan secara resmi ke rekening Virtual Account atas nama PT Pancaran Energi Transport.",
-        "Uang jaminan ini sepenuhnya aman. Jika Anda tidak memenangkan unit manapun saat lelang berakhir, deposit dapat direfund penuh (100%) langsung ke rekening Anda tanpa potongan apapun."
-      ],
-      badge: "Rp 5.000.000 / Lot"
-    },
-    {
-      step: 3,
       title: "Dapatkan Nomor Peserta",
       icon: FileText,
-      shortDesc: "Terima kode penawaran aktif setelah deposit terverifikasi sistem.",
+      shortDesc: "Terima kode penawaran aktif secara instan untuk mulai mengajukan penawaran.",
       detailTitle: "Kode Identitas Penawaran Resmi",
       bullets: [
-        "Setelah bukti deposit atau transaksi disetujui, sistem kami akan langsung merilis Kartu Peserta elektronik yang unik.",
+        "Sistem kami akan langsung merilis Kartu Peserta elektronik yang unik setelah Anda mendaftar atau masuk ke akun Anda.",
         "Anda akan mendapatkan Kode Penawaran khusus (contoh: KODE-58291) yang tampil di menu 'Aktivitas Saya'.",
-        "Gunakan kode digital ini sebagai penanda resmi identitas Anda saat menawar harga lot di podium lelang."
+        "Gunakan kode digital ini sebagai penanda resmi identitas Anda saat menawar harga lot di podium lelang.",
+        "Pendaftaran dan nomor peserta sepenuhnya GRATIS tanpa ada biaya jaminan deposit apa pun."
       ],
       badge: "Kode Unik Digital"
     },
     {
-      step: 4,
+      step: 3,
       title: "Ikuti Lelang Live Bidding",
       icon: Clock,
       shortDesc: "Tawar unit secara real-time pada sesi lelang utama di hari Kamis & Jumat.",
@@ -73,15 +75,15 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
       badge: "Kamis & Jumat (09:00 WIB)"
     },
     {
-      step: 5,
-      title: "Pelunasan atau Tarik Refund",
+      step: 4,
+      title: "Pelunasan & Serah Terima",
       icon: ShieldCheck,
-      shortDesc: "Selesaikan administrasi kemenangan, atau ambil refund jaminan seketika.",
-      detailTitle: "Penyelesaian Transaksi Adil & Profesional",
+      shortDesc: "Selesaikan administrasi kemenangan dan serah terima unit secara resmi.",
+      detailTitle: "Penyelesaian Transaksi Profesional",
       bullets: [
         "Bagi Pemenang Lelang: Lakukan pelunasan sisa pembayaran dalam waktu maksimal 3 hari kerja setelah lelang ditutup.",
         "Setelah pelunasan dikonfirmasi, Anda bisa langsung membawa pulang unit truk beserta dokumen lengkap (STNK, BPKB asli) dengan surat serah terima resmi.",
-        "Bagi Peserta Kalah: Ajukan pengembalian (refund) instan deposit Rp 5.000.000 Anda melalui tombol refund di menu Aktivitas Saya. Uang akan ditransfer balik dalam 1x24 jam."
+        "Bagi peserta yang belum menang: Anda dapat langsung memilih unit impian lainnya di periode lelang berikutnya tanpa biaya apa pun."
       ],
       badge: "Proses Cepat & Resmi"
     }
@@ -90,15 +92,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
   return (
     <div className="w-full">
       {/* JBA-inspired top utility bar */}
-      <div className="bg-[#16213E] text-slate-100 py-2.5 px-4 md:px-8 text-xs flex flex-col md:flex-row justify-between items-center gap-2 border-b border-slate-700/50">
-        <div className="flex items-center gap-2">
-          <span className="bg-red-500 text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-wider animate-pulse">
-            INFO LELANG
-          </span>
-          <span className="text-slate-300 font-medium">
-            Pool Jakarta (Cilincing) Open House Senin - Rabu, Pukul 09:00 - 16:00 WIB
-          </span>
-        </div>
+      <div className="bg-[#16213E] text-slate-100 py-2.5 px-4 md:px-8 text-xs flex flex-col md:flex-row justify-end items-center gap-2 border-b border-slate-700/50">
         <div className="flex items-center gap-4 text-slate-300">
           <button 
             onClick={() => {
@@ -147,6 +141,34 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
 
           {/* User profile actions (Mobile) */}
           <div className="flex items-center gap-2 lg:hidden">
+            {user ? (
+              <div className="flex items-center gap-1.5">
+                {user.role === 'admin' && (
+                  <button
+                    onClick={onOpenPostAuction}
+                    className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
+                    title="Posting Unit Lelang"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  onClick={onLogout}
+                  className="p-2 text-slate-500 hover:text-red-500 hover:bg-slate-50 rounded-lg cursor-pointer"
+                  title="Keluar"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => onOpenAuth('login')}
+                className="p-2 text-slate-600 hover:text-[#0F3460] hover:bg-slate-50 rounded-lg cursor-pointer"
+                title="Masuk"
+              >
+                <User className="w-4.5 h-4.5" />
+              </button>
+            )}
             <button 
               onClick={() => setActiveTab('aktivitas')}
               className={`relative p-2 rounded-full ${activeTab === 'aktivitas' ? 'bg-red-50 text-red-500' : 'text-slate-600'}`}
@@ -197,21 +219,54 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
 
         {/* Bidder registration actions */}
         <div className="hidden lg:flex items-center gap-3">
-          <button 
-            onClick={() => setActiveTab('aktivitas')}
-            className="text-sm font-bold text-slate-700 hover:text-[#0F3460] transition-colors flex items-center gap-1.5 px-3 py-2 cursor-pointer"
-            id="login-button"
-          >
-            <User className="w-4 h-4" />
-            Masuk Anggota
-          </button>
-          <button
-            onClick={() => setActiveTab('jadwal')}
-            className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-red-500/20 transition-all duration-200 hover:scale-102 cursor-pointer"
-            id="register-nipl-button"
-          >
-            Daftar Peserta Sekarang
-          </button>
+          {user ? (
+            <div className="flex items-center gap-4 bg-slate-50 border border-slate-200/60 px-4 py-2 rounded-xl">
+              <div className="text-left">
+                <span className="block text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                  Sesi {user.role === 'admin' ? 'Administrator' : 'Keanggotaan'}
+                </span>
+                <span className="block text-xs font-bold text-slate-700 max-w-[150px] truncate" title={user.email}>
+                  {user.name}
+                </span>
+              </div>
+
+              {user.role === 'admin' && (
+                <button
+                  onClick={onOpenPostAuction}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wide px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Posting Unit
+                </button>
+              )}
+
+              <button
+                onClick={onLogout}
+                className="text-slate-500 hover:text-red-600 p-1.5 hover:bg-slate-200/50 rounded-lg transition-colors cursor-pointer"
+                title="Keluar / Logout"
+              >
+                <LogOut className="w-4.5 h-4.5" />
+              </button>
+            </div>
+          ) : (
+            <>
+              <button 
+                onClick={() => onOpenAuth('login')}
+                className="text-sm font-bold text-slate-700 hover:text-[#0F3460] transition-colors flex items-center gap-1.5 px-3 py-2 cursor-pointer"
+                id="login-button"
+              >
+                <User className="w-4 h-4" />
+                Masuk Anggota
+              </button>
+              <button
+                onClick={() => onOpenAuth('register')}
+                className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-red-500/20 transition-all duration-200 hover:scale-102 cursor-pointer"
+                id="register-nipl-button"
+              >
+                Daftar Peserta Sekarang
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -243,7 +298,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
               <div className="md:col-span-5 bg-slate-50 border-r border-slate-100 p-4 md:p-6 overflow-y-auto flex md:flex-col gap-2.5 scrollbar-thin md:max-h-full">
                 <div className="hidden md:block mb-3">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Alur Proses Lelang</span>
-                  <p className="text-xs text-slate-500 mt-0.5">Ikuti 5 langkah mudah berikut ini:</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Ikuti 4 langkah mudah berikut ini:</p>
                 </div>
 
                 {guideSteps.map((item) => {
@@ -289,7 +344,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
                       <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
                         <div className="space-y-1">
                           <span className="bg-red-100 text-red-700 font-extrabold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded">
-                            Langkah {currentData.step} dari 5
+                            Langkah {currentData.step} dari 4
                           </span>
                           <h4 className="text-base md:text-lg font-black text-[#0F3460] tracking-tight mt-1">
                             {currentData.detailTitle}
@@ -312,19 +367,6 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
                         ))}
                       </div>
 
-                      {/* Info Warning Card for step 2 */}
-                      {currentData.step === 2 && (
-                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 flex items-start gap-3 mt-4">
-                          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                          <div className="space-y-0.5">
-                            <h5 className="font-bold text-amber-800 text-xs">Peringatan Keamanan Anti Penipuan</h5>
-                            <p className="text-[11px] text-amber-700 leading-relaxed">
-                              Pihak Pancaran Lelang tidak pernah menginstruksikan transfer deposit ke nomor rekening pribadi perorangan/sales. Seluruh transaksi wajib ditujukan ke Virtual Account atas nama perusahaan kami.
-                            </p>
-                          </div>
-                        </div>
-                      )}
-
                       {/* Action buttons inside the slide */}
                       <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 flex items-center justify-between gap-3 mt-4">
                         <div className="flex items-center gap-2">
@@ -332,7 +374,7 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
                           <span className="text-[11px] text-slate-500 font-medium">Ketentuan: {currentData.badge}</span>
                         </div>
                         
-                        {currentData.step < 5 ? (
+                        {currentData.step < 4 ? (
                           <button 
                             onClick={() => setSelectedStep(prev => prev + 1)}
                             className="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-1.5 px-3 rounded-lg text-xs transition-colors flex items-center gap-1 cursor-pointer"

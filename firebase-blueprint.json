@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "Truck": {
+      "title": "Truck",
+      "description": "Truck unit available for auction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "brand": { "type": "string" },
+        "name": { "type": "string" },
+        "lotNo": { "type": "string" },
+        "grade": { "type": "string" },
+        "year": { "type": "number" },
+        "km": { "type": "number" },
+        "transmission": { "type": "string" },
+        "location": { "type": "string" },
+        "documents": { "type": "string" },
+        "bbm": { "type": "string" },
+        "basePrice": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "brand", "name", "lotNo", "basePrice"]
+    },
+    "Booking": {
+      "title": "Inspection Booking",
+      "description": "User requests for physical unit inspection",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "truckId": { "type": "string" },
+        "truckName": { "type": "string" },
+        "lotNo": { "type": "string" },
+        "date": { "type": "string" },
+        "timeSlot": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "truckId", "date", "name", "phone"]
+    },
+    "Negotiation": {
+      "title": "Negotiation Offer",
+      "description": "User submission of prior negotiation price offer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "truckId": { "type": "string" },
+        "truckName": { "type": "string" },
+        "lotNo": { "type": "string" },
+        "offerAmount": { "type": "number" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "truckId", "offerAmount", "name", "phone"]
+    },
+    "Consignment": {
+      "title": "Consignment Submission",
+      "description": "Seller submitting their truck to Pancaran Lelang",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "ownerPhone": { "type": "string" },
+        "ownerEmail": { "type": "string" },
+        "truckBrand": { "type": "string" },
+        "truckModel": { "type": "string" },
+        "year": { "type": "number" },
+        "expectedPrice": { "type": "number" },
+        "notes": { "type": "string" },
+        "status": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "ownerName", "ownerPhone", "truckBrand", "expectedPrice"]
+    }
+  },
+  "firestore": {
+    "trucks/{truckId}": {
+      "schema": "Truck",
+      "description": "Trucks listed for auction"
+    },
+    "bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Physical check schedules submitted by bidders"
+    },
+    "negotiations/{negotiationId}": {
+      "schema": "Negotiation",
+      "description": "Pre-auction bid offers submitted by buyers"
+    },
+    "consignments/{consignmentId}": {
+      "schema": "Consignment",
+      "description": "Sellers consigning their trucks to the auction house"
+    }
+  }
+}
