@@ -168,18 +168,22 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
               />
               
               {/* Image Navigation Arrows */}
-              <button 
-                onClick={() => setActiveImageIdx(prev => prev > 0 ? prev - 1 : truck.gallery.length - 1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-1.5 rounded-full shadow hover:scale-105 transition-all cursor-pointer"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => setActiveImageIdx(prev => prev < truck.gallery.length - 1 ? prev + 1 : 0)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-1.5 rounded-full shadow hover:scale-105 transition-all cursor-pointer"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+              {truck.gallery.length > 1 && (
+                <>
+                  <button 
+                    onClick={() => setActiveImageIdx(prev => prev > 0 ? prev - 1 : truck.gallery.length - 1)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-1.5 rounded-full shadow hover:scale-105 transition-all cursor-pointer"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button 
+                    onClick={() => setActiveImageIdx(prev => prev < truck.gallery.length - 1 ? prev + 1 : 0)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 p-1.5 rounded-full shadow hover:scale-105 transition-all cursor-pointer"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </>
+              )}
 
               <div className="absolute bottom-3 right-3 bg-slate-900/80 text-white font-bold text-xs px-2.5 py-1 rounded">
                 Kondisi Real Nyata (Kamera Inspektur)
@@ -187,19 +191,21 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
             </div>
 
             {/* Thumbnail Navigations */}
-            <div className="flex gap-2.5 mb-6 overflow-x-auto pb-2">
-              {truck.gallery.map((imgUrl, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImageIdx(idx)}
-                  className={`w-20 md:w-24 aspect-video rounded-lg overflow-hidden border-2 shrink-0 transition-all ${
-                    idx === activeImageIdx ? 'border-[#0F3460] scale-102 ring-2 ring-[#0F3460]/20' : 'border-slate-200 opacity-75 hover:opacity-100'
-                  }`}
-                >
-                  <img src={imgUrl} alt="Thumbnail" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </button>
-              ))}
-            </div>
+            {truck.gallery.length > 1 && (
+              <div className="flex gap-2.5 mb-6 overflow-x-auto pb-2">
+                {truck.gallery.map((imgUrl, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIdx(idx)}
+                    className={`w-20 md:w-24 aspect-video rounded-lg overflow-hidden border-2 shrink-0 transition-all ${
+                      idx === activeImageIdx ? 'border-[#0F3460] scale-102 ring-2 ring-[#0F3460]/20' : 'border-slate-200 opacity-75 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={imgUrl} alt="Thumbnail" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Tab Selectors for Information */}
             <div className="flex gap-2.5 border-b border-slate-200 mb-5 pb-0.5">

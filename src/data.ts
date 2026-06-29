@@ -16,9 +16,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 585000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1SQeQ5bRPwAuVpnWIBcMTPz-HyPHi_iRu',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1SQeQ5bRPwAuVpnWIBcMTPz-HyPHi_iRu',
-      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1SQeQ5bRPwAuVpnWIBcMTPz-HyPHi_iRu'
     ],
     category: 'Wingbox',
     status: 'Live Terbuka',
@@ -54,9 +52,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 720000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1PA8AFO7HDNJGdC2eqgm1ILVfq2XZYNtZ',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1PA8AFO7HDNJGdC2eqgm1ILVfq2XZYNtZ',
-      'https://images.unsplash.com/photo-1501700493788-fa1a4fcb3c73?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1542442828-2572bc97902d?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1PA8AFO7HDNJGdC2eqgm1ILVfq2XZYNtZ'
     ],
     category: 'Tractor Head',
     status: 'Live Terbuka',
@@ -92,9 +88,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 590000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1VNC6fFS3AT48aUGY7wkd6xEw3o5-tq3J',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1VNC6fFS3AT48aUGY7wkd6xEw3o5-tq3J',
-      'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1542442828-2572bc97902d?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1VNC6fFS3AT48aUGY7wkd6xEw3o5-tq3J'
     ],
     category: 'Dump Truck',
     status: 'Live Terbuka',
@@ -130,9 +124,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 980000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1chdpgnLq6GQBqsy-HYPpfuvO6_yYB9uF',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1chdpgnLq6GQBqsy-HYPpfuvO6_yYB9uF',
-      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1501700493788-fa1a4fcb3c73?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1chdpgnLq6GQBqsy-HYPpfuvO6_yYB9uF'
     ],
     category: 'Tractor Head',
     status: 'Segera Mulai',
@@ -168,9 +160,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 185000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/12IBeMcewvR0BF0ZibgAS_0syKnxJNzYy',
     gallery: [
-      'https://lh3.googleusercontent.com/d/12IBeMcewvR0BF0ZibgAS_0syKnxJNzYy',
-      'https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/12IBeMcewvR0BF0ZibgAS_0syKnxJNzYy'
     ],
     category: 'Box Rigit',
     status: 'Segera Mulai',
@@ -206,9 +196,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 245000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1OySj4TRZEc6awvmvbv9MpWzXNAF24uaX',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1OySj4TRZEc6awvmvbv9MpWzXNAF24uaX',
-      'https://images.unsplash.com/photo-1501700493788-fa1a4fcb3c73?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1OySj4TRZEc6awvmvbv9MpWzXNAF24uaX'
     ],
     category: 'Tangki',
     status: 'Segera Mulai',
@@ -244,9 +232,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 610000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1SLMV6XugZIuXe-wZqgSwbacCthsMyvdN',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1SLMV6XugZIuXe-wZqgSwbacCthsMyvdN',
-      'https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1516504934371-331215b4f653?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1SLMV6XugZIuXe-wZqgSwbacCthsMyvdN'
     ],
     category: 'Box Rigit',
     status: 'Live Terbuka',
@@ -282,9 +268,7 @@ export const INITIAL_TRUCKS: Truck[] = [
     basePrice: 595000000,
     imageUrl: 'https://lh3.googleusercontent.com/d/1WShHGjJWx6h2oWbkpQznfdH9QS8x8g-S',
     gallery: [
-      'https://lh3.googleusercontent.com/d/1WShHGjJWx6h2oWbkpQznfdH9QS8x8g-S',
-      'https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80&w=800'
+      'https://lh3.googleusercontent.com/d/1WShHGjJWx6h2oWbkpQznfdH9QS8x8g-S'
     ],
     category: 'Wingbox',
     status: 'Live Terbuka',
