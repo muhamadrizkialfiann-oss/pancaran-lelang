@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Truck, InspectionBooking, NegotiationOffer, ConsignmentSubmission } from './types';
-import { INITIAL_TRUCKS, UPCOMING_AUCTIONS } from './data';
+import { INITIAL_TRUCKS } from './data';
 
 // Component Imports
 import Header from './components/Header';
 import TruckCard from './components/TruckCard';
 import ReviewModal from './components/ReviewModal';
-import ConsignmentForm from './components/ConsignmentForm';
-import LeasingCalculator from './components/LeasingCalculator';
 import MyActivityDashboard from './components/MyActivityDashboard';
 
 // Icon Imports
@@ -140,6 +138,19 @@ export default function App() {
     return trucks.filter(t => t.brand === brand).length;
   };
 
+  // Calculate highest bid/vote for a truck dynamically
+  const getHighestBidForTruck = (truckId: string, basePrice: number) => {
+    const idNum = parseInt(truckId) || 1;
+    // unique deterministic mock increment per truck
+    const mockIncrement = (idNum * 3500000) + 4000000;
+    const initialHighest = basePrice + mockIncrement;
+
+    const truckNegos = negotiations.filter(n => n.truckId === truckId);
+    const maxNego = truckNegos.length > 0 ? Math.max(...truckNegos.map(n => n.proposedPrice)) : 0;
+
+    return Math.max(initialHighest, maxNego);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-800">
       
@@ -194,16 +205,12 @@ export default function App() {
                 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button 
-                    onClick={() => setActiveTab('jadwal')}
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md shadow-red-500/10 transition-transform hover:scale-102 cursor-pointer"
+                    onClick={() => {
+                      document.getElementById('katalog-filter')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md shadow-red-500/10 transition-all hover:scale-102 cursor-pointer"
                   >
-                    Lihat Jadwal Terdekat
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('titip')}
-                    className="bg-white/15 hover:bg-white/25 text-white font-bold px-5 py-2.5 rounded-xl text-xs border border-white/10 transition-transform hover:scale-102 cursor-pointer"
-                  >
-                    Bantu Titip Jual Truk
+                    Mulai Cari Truk
                   </button>
                 </div>
               </div>
@@ -221,7 +228,7 @@ export default function App() {
             </div>
 
             {/* Advanced Filters Section */}
-            <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
+            <div id="katalog-filter" className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
               
               {/* Filter Top: Search & Sorting */}
               <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
@@ -333,6 +340,7 @@ export default function App() {
                   <TruckCard 
                     key={truck.id} 
                     truck={truck} 
+                    highestBid={getHighestBidForTruck(truck.id, truck.basePrice)}
                     onSelect={(selected) => setSelectedTruck(selected)} 
                   />
                 ))}
@@ -340,114 +348,6 @@ export default function App() {
             )}
 
           </div>
-        )}
-
-        {/* Tab content 2: Jadwal Live */}
-        {activeTab === 'jadwal' && (
-          <div className="space-y-8 max-w-4xl mx-auto animate-fadeIn">
-            
-            <div className="text-center space-y-2 mb-8">
-              <span className="bg-red-100 text-red-600 font-extrabold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded">
-                Live Auction Calendar
-              </span>
-              <h2 className="text-2xl md:text-3xl font-black text-[#16213E]">Jadwal Penyelenggaraan Lelang Aktif</h2>
-              <p className="text-xs md:text-sm text-slate-500 max-w-xl mx-auto">
-                Silakan pilih jadwal terdekat di pool terdekat dari kota Anda. Seluruh unit siap ditinjau secara fisik 3 hari sebelum lelang live dimulai.
-              </p>
-            </div>
-
-            {/* Upcoming Auction Cards */}
-            <div className="space-y-4">
-              {UPCOMING_AUCTIONS.map((auc) => (
-                <div 
-                  key={auc.id} 
-                  className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-blue-500 transition-all"
-                >
-                  <div className="space-y-3 flex-grow">
-                    <div className="flex items-center gap-2.5 flex-wrap">
-                      <span className="bg-blue-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded shadow-xs">
-                        {auc.date}
-                      </span>
-                      <span className="text-[11px] font-bold text-[#E94560]">
-                        🕒 Mulai {auc.time}
-                      </span>
-                    </div>
-
-                    <h4 className="text-lg font-black text-slate-800">{auc.title}</h4>
-                    
-                    <div className="space-y-1.5 text-xs text-slate-600">
-                      <p className="flex items-center gap-1.5 font-medium">
-                        <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-                        Lokasi: {auc.location}
-                      </p>
-                      <p className="flex items-center gap-1.5">
-                        <span className="font-bold text-[#0F3460]">Highlight:</span>
-                        {auc.specialHighlights}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center w-full md:w-auto shrink-0 space-y-3">
-                    <div className="text-xs">
-                      <span className="text-slate-400 font-semibold block uppercase text-[9px]">Jumlah Unit</span>
-                      <span className="text-lg font-black text-[#0F3460] mt-0.5 block">{auc.totalUnits} Truk</span>
-                    </div>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('aktivitas');
-                      }}
-                      className="w-full md:w-auto bg-[#0F3460] hover:bg-[#0b2545] text-white font-bold py-2 px-4 rounded-lg text-xs transition-colors cursor-pointer"
-                    >
-                      Daftar Peserta & Deposit
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Step guidance how to bid JBA style */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-6">
-              <h3 className="font-bold text-[#16213E] text-base border-b border-slate-100 pb-3 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-                4 Langkah Mudah Mengikuti Lelang Pancaran
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs leading-relaxed">
-                <div className="space-y-2">
-                  <span className="bg-red-500 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">1</span>
-                  <h5 className="font-extrabold text-slate-800 uppercase tracking-wider text-[10px]">Cari & Cek Unit</h5>
-                  <p className="text-slate-500">Pilih armada truk impian Anda di Katalog. Jadwalkan kunjungan cek fisik ke pool kami secara gratis.</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="bg-slate-800 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">2</span>
-                  <h5 className="font-extrabold text-slate-800 uppercase tracking-wider text-[10px]">Deposit Jaminan</h5>
-                  <p className="text-slate-500">Masuk ke menu Aktivitas Saya, lalu setorkan deposit jaminan Rp 5 Juta per lot untuk mengambil Nomor Peserta.</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="bg-slate-800 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">3</span>
-                  <h5 className="font-extrabold text-slate-800 uppercase tracking-wider text-[10px]">Tawar Sesuai Lot</h5>
-                  <p className="text-slate-500">Ikuti live auction penawaran lot. Jika Anda dinyatakan menang, lanjutkan pelunasan unit.</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="bg-slate-800 text-white font-black text-xs w-6 h-6 rounded-full flex items-center justify-center">4</span>
-                  <h5 className="font-extrabold text-slate-800 uppercase tracking-wider text-[10px]">Serah Terima</h5>
-                  <p className="text-slate-500">Lakukan pelunasan dan ambil unit beserta kelengkapan berkas BPKB & STNK dalam 3 hari kerja.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* Tab content 3: Titip Lelang Form */}
-        {activeTab === 'titip' && (
-          <ConsignmentForm onConsignmentSubmitted={handleConsignmentSubmitted} />
-        )}
-
-        {/* Tab content 4: Leasing Calculator */}
-        {activeTab === 'kalkulator' && (
-          <LeasingCalculator trucks={trucks} selectedTruckId={selectedTruck?.id} />
         )}
 
         {/* Tab content 5: Aktivitas Saya (Dashboard) */}
@@ -466,6 +366,7 @@ export default function App() {
       {selectedTruck && (
         <ReviewModal 
           truck={selectedTruck}
+          highestBid={getHighestBidForTruck(selectedTruck.id, selectedTruck.basePrice)}
           onClose={() => setSelectedTruck(null)}
           onBookingSubmitted={handleBookingSubmitted}
           onNegotiationSubmitted={handleNegotiationSubmitted}
@@ -497,9 +398,6 @@ export default function App() {
             <h4 className="font-bold text-slate-200 uppercase">Layanan Anggota</h4>
             <ul className="space-y-1.5">
               <li><a href="#katalog" onClick={(e) => { e.preventDefault(); setActiveTab('beranda'); }} className="hover:text-white">Katalog Truk</a></li>
-              <li><a href="#jadwal" onClick={(e) => { e.preventDefault(); setActiveTab('jadwal'); }} className="hover:text-white">Jadwal Live Terdekat</a></li>
-              <li><a href="#titip" onClick={(e) => { e.preventDefault(); setActiveTab('titip'); }} className="hover:text-white">Titip Armada Seller</a></li>
-              <li><a href="#kalkulator" onClick={(e) => { e.preventDefault(); setActiveTab('kalkulator'); }} className="hover:text-white">Kalkulator Simulasi Leasing</a></li>
               <li><a href="#aktivitas" onClick={(e) => { e.preventDefault(); setActiveTab('aktivitas'); }} className="hover:text-white">Lacak Aktivitas Anggota</a></li>
             </ul>
           </div>

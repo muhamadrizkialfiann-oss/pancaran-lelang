@@ -166,9 +166,6 @@ export default function Header({ activeTab, setActiveTab, bookingCount, negoCoun
           <ul className="flex flex-wrap items-center justify-center gap-1 md:gap-2">
             {[
               { id: 'beranda', label: 'Katalog Truk', icon: Truck },
-              { id: 'jadwal', label: 'Jadwal Live', icon: Calendar },
-              { id: 'titip', label: 'Titip Lelang', icon: ArrowRight },
-              { id: 'kalkulator', label: 'Simulasi Leasing', icon: Calculator },
               { id: 'aktivitas', label: 'Aktivitas Saya', icon: History, count: totalActivities },
             ].map((menu) => {
               const Icon = menu.icon;

@@ -4,10 +4,11 @@ import { MapPin, Calendar, Gauge, FileText, ArrowRight } from 'lucide-react';
 interface TruckCardProps {
   key?: string | number;
   truck: Truck;
+  highestBid: number;
   onSelect: (truck: Truck) => void;
 }
 
-export default function TruckCard({ truck, onSelect }: TruckCardProps) {
+export default function TruckCard({ truck, highestBid, onSelect }: TruckCardProps) {
   // Format price into IDR format
   const formatIDR = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -108,14 +109,25 @@ export default function TruckCard({ truck, onSelect }: TruckCardProps) {
           </div>
         </div>
 
-        {/* Pricing tag JBA style */}
-        <div className="mt-auto bg-slate-50 border-l-4 border-[#0F3460] px-3.5 py-2.5 rounded-r-lg">
-          <span className="block text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">
-            Harga Dasar Lelang
-          </span>
-          <span className="block text-lg font-black text-[#E94560] mt-0.5">
-            {formatIDR(truck.basePrice)}
-          </span>
+        {/* Pricing tag JBA style - Side-by-side Layout */}
+        <div className="mt-auto bg-slate-50 border-l-4 border-[#0F3460] p-2 rounded-r-lg grid grid-cols-2 gap-2 divide-x divide-slate-200">
+          <div className="min-w-0 pr-1">
+            <span className="block text-[9px] font-extrabold uppercase text-slate-400 tracking-wider">
+              Harga Dasar
+            </span>
+            <span className="block text-[13px] md:text-sm font-black text-slate-500 mt-0.5 truncate">
+              {formatIDR(truck.basePrice)}
+            </span>
+          </div>
+          <div className="min-w-0 pl-2">
+            <span className="block text-[9px] font-extrabold uppercase text-emerald-600 tracking-wider flex items-center gap-1">
+              Vote Tertinggi
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+            </span>
+            <span className="block text-[13px] md:text-sm font-black text-[#E94560] mt-0.5 truncate">
+              {formatIDR(highestBid)}
+            </span>
+          </div>
         </div>
 
         {/* Action Button & Bid status */}

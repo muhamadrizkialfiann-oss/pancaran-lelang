@@ -8,12 +8,13 @@ import {
 
 interface ReviewModalProps {
   truck: Truck;
+  highestBid: number;
   onClose: () => void;
   onBookingSubmitted: (booking: InspectionBooking) => void;
   onNegotiationSubmitted: (offer: NegotiationOffer) => void;
 }
 
-export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNegotiationSubmitted }: ReviewModalProps) {
+export default function ReviewModal({ truck, highestBid, onClose, onBookingSubmitted, onNegotiationSubmitted }: ReviewModalProps) {
   // Gallery slider state
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   
@@ -323,12 +324,24 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
                     </div>
                   </div>
 
-                  <div className="bg-white p-4 rounded-lg border border-slate-100">
-                    <span className="text-xs text-slate-400 font-bold uppercase block mb-1">Harga Dasar Mulai Dari</span>
-                    <span className="text-2xl font-black text-[#E94560] block">{formatIDR(truck.basePrice)}</span>
-                    <p className="text-xs text-slate-500 mt-1">
-                      *Harga di atas adalah batas penawaran awal lelang. Klik tab formulir di sisi kanan untuk mendaftar inspeksi fisik gratis ke pool atau mengajukan negosiasi harga.
-                    </p>
+                  <div className="bg-white p-4 rounded-lg border border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="border-b sm:border-b-0 sm:border-r border-slate-100 pb-3 sm:pb-0 sm:pr-4">
+                      <span className="text-xs text-slate-400 font-bold uppercase block mb-1">Harga Dasar Mulai Dari</span>
+                      <span className="text-xl md:text-2xl font-black text-[#E94560] block">{formatIDR(truck.basePrice)}</span>
+                      <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+                        Batas minimal penawaran awal resmi unit ini.
+                      </p>
+                    </div>
+                    <div className="sm:pl-2">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="text-xs text-slate-400 font-bold uppercase block">Vote Tertinggi Saat Ini</span>
+                        <span className="bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase px-1.5 py-0.5 rounded animate-pulse shrink-0">Live Vote</span>
+                      </div>
+                      <span className="text-xl md:text-2xl font-black text-[#0F3460] block">{formatIDR(highestBid)}</span>
+                      <p className="text-[10px] text-slate-400 mt-1 leading-normal">
+                        Ter-update otomatis jika ada yang isi nego di samping.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -672,7 +685,7 @@ export default function ReviewModal({ truck, onClose, onBookingSubmitted, onNego
                           </div>
                           <div className="flex justify-between mt-1 text-[10px] font-semibold text-slate-400">
                             <span>Harga Dasar: {formatIDR(truck.basePrice)}</span>
-                            <span>Saran: {formatIDR(truck.basePrice * 0.95)} (Nego tipis)</span>
+                            <span className="text-emerald-600 font-extrabold">Vote Tertinggi: {formatIDR(highestBid)}</span>
                           </div>
                         </div>
 
