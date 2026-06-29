@@ -1,0 +1,6 @@
+{
+  "name": "Pancaran Lelang",
+  "description": "Platform Lelang Truk & Alat Berat Terpercaya dengan Inspeksi Transparan, Penjadwalan Cek Unit, dan Sistem Negosiasi Real-Time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
